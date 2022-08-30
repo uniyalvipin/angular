@@ -11,9 +11,10 @@ import { MenuComponent } from './menu/menu.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
+import { DishDetailComponent } from './dish-detail/dish-detail.component';
 
 @NgModule({
-  declarations: [AppComponent, MenuComponent],
+  declarations: [AppComponent, MenuComponent, DishDetailComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
