@@ -24,7 +24,7 @@ import { DishDetailComponent } from './dish-detail/dish-detail.component';
     MatGridListModule,
     MatCardModule,
     FlexLayoutModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
