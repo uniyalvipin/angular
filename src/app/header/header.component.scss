@@ -14,3 +14,11 @@ $background-pale: #d1c4e9;
   color: floralwhite;
   min-height: 150px;
 }
+
+.active {
+  background-color: $background-dark;
+}
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
