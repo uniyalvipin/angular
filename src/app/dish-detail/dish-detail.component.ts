@@ -19,8 +19,10 @@ export class DishDetailComponent implements OnInit {
   commentForm: FormGroup;
   comment: Comment;
   showPreview: boolean;
+  dishcopy: Dish;
 
   @ViewChild('cform') commentFormDirective: any;
+  errMsg: string;
 
   constructor(
     private dishService: DishService,
@@ -50,16 +52,22 @@ export class DishDetailComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.dishService
-      .getDishIds()
-      .subscribe((dishIds) => (this.dishIds = dishIds));
+    this.dishService.getDishIds().subscribe({
+      next: (dishIds) => (this.dishIds = dishIds),
+      error: (err) => (this.errMsg = err),
+    });
+
     this.route.params
       .pipe(
         switchMap((params: Params) => this.dishService.getDish(params['id']))
       )
-      .subscribe((dish: Dish) => {
-        this.dish = dish;
-        this.setPrevNext(dish.id);
+      .subscribe({
+        next: (dish) => {
+          this.dish = dish;
+          this.dishcopy = dish;
+          this.setPrevNext(dish.id);
+        },
+        error: (err) => (this.errMsg = err),
       });
   }
 
@@ -105,7 +113,14 @@ export class DishDetailComponent implements OnInit {
 
   submitComment() {
     this.comment = this.commentForm.value;
-    this.dish?.comments?.push(this.comment);
+    this.dishcopy?.comments?.push(this.comment);
+    this.dishService.putDish(this.dishcopy).subscribe({
+      next: (dish) => {
+        this.dish = dish;
+        this.dishcopy = dish;
+      },
+      error: (err) => (this.errMsg = err),
+    });
 
     this.commentForm.reset({
       author: '',

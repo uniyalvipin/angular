@@ -118,8 +118,13 @@
     </div>
   </div>
 
-  <div [hidden]="dish">
+  <div [hidden]="dish || errMsg">
     <mat-spinner></mat-spinner>
     <h3>Loading... Please Wait!</h3>
+  </div>
+
+  <div fxFlex *ngIf="errMsg">
+    <h2>Error</h2>
+    <h4>{{ errMsg }}</h4>
   </div>
 </div>
