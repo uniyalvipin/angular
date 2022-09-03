@@ -5,37 +5,14 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+
+import { visibility, flyInOut, expand } from '../animations/app.animations';
 
 @Component({
   selector: 'app-dish-detail',
   templateUrl: './dish-detail.component.html',
   styleUrls: ['./dish-detail.component.scss'],
-  animations: [
-    trigger('visibility', [
-      state(
-        'shown',
-        style({
-          transform: 'scale(1.0)',
-          opacity: 1,
-        })
-      ),
-      state(
-        'hidden',
-        style({
-          transform: 'scale(0.5)',
-          opacity: 0,
-        })
-      ),
-      transition('* => *', animate('0.5s ease-in-out')),
-    ]),
-  ],
+  animations: [visibility(), expand()],
 })
 export class DishDetailComponent implements OnInit {
   dish: Dish;
