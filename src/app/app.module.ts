@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
@@ -19,7 +18,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSliderModule } from '@angular/material/slider';
+import { HttpClientModule } from '@angular/common/http';
 
+import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DishDetailComponent } from './dish-detail/dish-detail.component';
 import { HeaderComponent } from './header/header.component';
@@ -33,6 +35,9 @@ import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 
+import { BaseUrl } from './shared/baseurl';
+import { HighlightDirective } from './directives/highlight.directive';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +49,7 @@ import { LeaderService } from './services/leader.service';
     HomeComponent,
     ContactComponent,
     LoginComponent,
+    HighlightDirective,
   ],
   imports: [
     BrowserModule,
@@ -64,9 +70,16 @@ import { LeaderService } from './services/leader.service';
     MatSlideToggleModule,
     ReactiveFormsModule,
     MatProgressSpinnerModule,
+    MatSliderModule,
+    HttpClientModule,
   ],
   entryComponents: [LoginComponent],
-  providers: [DishService, PromotionService, LeaderService],
+  providers: [
+    DishService,
+    PromotionService,
+    LeaderService,
+    { provide: 'BaseURL', useValue: BaseUrl },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

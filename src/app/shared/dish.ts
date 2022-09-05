@@ -10,7 +10,7 @@ export interface Dish {
   comments?: Comment[];
 }
 
-interface Comment {
+export interface Comment {
   rating: number;
   comment: string;
   author: string;
