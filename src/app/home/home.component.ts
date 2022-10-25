@@ -36,12 +36,14 @@ export class HomeComponent implements OnInit {
       error: (err) => (this.dishErrMsg = err),
     });
 
-    this.promotionService
-      .getFeaturedPromotion()
-      .subscribe((promotion) => (this.promotion = promotion));
+    this.promotionService.getFeaturedPromotion().subscribe({
+      next: (promotion) => (this.promotion = promotion),
+      error: (err) => (this.dishErrMsg = err),
+    });
 
-    this.leaderService
-      .getFeaturedLeader()
-      .subscribe((leader) => (this.leader = leader));
+    this.leaderService.getFeaturedLeader().subscribe({
+      next: (leader) => (this.leader = leader),
+      error: (err) => (this.dishErrMsg = err),
+    });
   }
 }

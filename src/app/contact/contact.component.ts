@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { expand, flyInOut } from '../animations/app.animations';
 import { Feedback, ContactType } from '../shared/feedback';
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
@@ -14,13 +15,17 @@ import { Feedback, ContactType } from '../shared/feedback';
   animations: [flyInOut(), expand()],
 })
 export class ContactComponent implements OnInit {
-  @ViewChild('fform') feedbackFormDirective: any;
-
   feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
+  errMsg: string;
+  submittingData: boolean = false;
+  showForm: boolean = true;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private feedbackService: FeedbackService
+  ) {
     this.createForm();
   }
 
@@ -106,17 +111,31 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
+    this.submittingData = true;
+    this.showForm = false;
     this.feedback = this.feedbackForm.value;
-    this.feedbackForm.reset({
-      firstname: '',
-      lastname: '',
-      telnum: 0,
-      email: '',
-      agree: false,
-      contactType: 'None',
-      message: '',
+    console.log(this.feedback);
+    this.feedbackService.postFeedback(this.feedback).subscribe({
+      next: (feedback) => {
+        this.feedback = feedback;
+        this.submittingData = false;
+        setTimeout(() => {
+          this.feedbackForm.reset({
+            firstname: '',
+            lastname: '',
+            telnum: 0,
+            email: '',
+            agree: false,
+            contactType: 'None',
+            message: '',
+          });
+          this.showForm = true;
+        }, 5000);
+      },
+      error: (err) => {
+        this.errMsg = err;
+        this.submittingData = false;
+      },
     });
-
-    this.feedbackFormDirective.resetForm();
   }
 }
